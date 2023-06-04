@@ -11,7 +11,8 @@ import Study from "./study/Study";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Study />
+    {/* <Study /> */}
+    <Hansot></Hansot>
   </React.StrictMode>
 );
 
