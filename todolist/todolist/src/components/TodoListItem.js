@@ -14,8 +14,9 @@ import { onToggle, onRemove, onUndo, onEdit } from "./../store";
 import { useDispatch } from "react-redux";
 
 const TodoListItem = ({ todo }) => {
-  const { text, checked, id, able } = todo;
+  const { text, checked, id, able, previous } = todo;
   let dispatch = useDispatch();
+  console.log("in todolistitem's previous : " + previous);
   return (
     <div
       className="TodoListItem"
@@ -35,7 +36,7 @@ const TodoListItem = ({ todo }) => {
       <div
         className="edit"
         onClick={(e) => {
-          dispatch(onEdit(id, able));
+          dispatch(onEdit(id, able, text));
           e.stopPropagation();
         }}
       >
@@ -44,7 +45,7 @@ const TodoListItem = ({ todo }) => {
       <div
         className="undo"
         onClick={(e) => {
-          dispatch(onUndo(id));
+          dispatch(onUndo({ id, previous }));
           e.stopPropagation();
         }}
       >

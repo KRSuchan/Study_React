@@ -6,9 +6,24 @@ import TodoInsert from "./components/TodoInsert";
 import TodoList from "./components/TodoList";
 
 const initData = [
-  { id: 1, text: "리액트의 기초 알아보기", checked: true },
-  { id: 2, text: "컴포넌트 스타일링해 보기", checked: true },
-  { id: 3, text: "일정 관리 앱 만들어 보기", checked: false },
+  {
+    id: 1,
+    previous: "리액트의 기초 알아보기",
+    text: "리액트의 기초 알아보기",
+    checked: true,
+  },
+  {
+    id: 2,
+    previous: "컴포넌트 스타일링해 보기",
+    text: "컴포넌트 스타일링해 보기",
+    checked: true,
+  },
+  {
+    id: 3,
+    previous: "일정 관리 앱 만들어 보기",
+    text: "일정 관리 앱 만들어 보기",
+    checked: false,
+  },
 ];
 
 function App() {
@@ -27,14 +42,11 @@ function App() {
     [todos]
   );
   const onEdit = useCallback(
-    (id, text) => {
-      setTodos(
-        todos.filter((todo) => {
-          if (todo.id == id) {
-            todo.text = text;
-          }
-        })
-      );
+    (text) => {
+      const todo = {
+        text,
+      };
+      setTodos(todos.map(todo));
     },
     [todos]
   );
@@ -45,8 +57,12 @@ function App() {
     [todos]
   );
   const onUndo = useCallback(
-    (id) => {
-      setTodos(todos.filter((todo) => todo.id != id));
+    (id, previous) => {
+      const todo = {
+        id,
+        previous,
+      };
+      setTodos(todos.map(todos.map(todo)));
     },
     [todos]
   );

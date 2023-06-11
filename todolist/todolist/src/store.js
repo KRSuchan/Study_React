@@ -4,9 +4,27 @@ var nextId = 4;
 let todos = createSlice({
   name: "todos",
   initialState: [
-    { id: 1, text: "리액트의 기초 알아보기", checked: true, able: false },
-    { id: 2, text: "컴포넌트 스타일링해 보기", checked: true, able: false },
-    { id: 3, text: "일정 관리 앱 만들어 보기", checked: false, able: false },
+    {
+      id: 1,
+      previous: "06.12 그래픽스 시험",
+      text: "06.12 그래픽스 시험",
+      checked: true,
+      able: false,
+    },
+    {
+      id: 2,
+      previous: "06.13 웹프 텀프 최종",
+      text: "06.13 웹프 텀프 최종",
+      checked: true,
+      able: false,
+    },
+    {
+      id: 3,
+      previous: "06.15 웹프 시험",
+      text: "06.15 웹프 시험",
+      checked: false,
+      able: false,
+    },
   ],
   reducers: {
     onToggle(state, action) {
@@ -19,6 +37,7 @@ let todos = createSlice({
     onInsert(state, action) {
       const todo = {
         id: nextId,
+        previous: action.payload,
         text: action.payload,
         checked: false,
         able: false,
@@ -27,16 +46,18 @@ let todos = createSlice({
       return state.concat(todo);
     },
     onEdit(state, action) {
-      const todo = {
-        text: action.payload,
-      };
+      const { id, able, text } = action.payload;
       return state.map((todo) =>
-        todo.id === action.payload ? { ...todo, able: !todo.able } : todo
+        todo.id === action.payload
+          ? { ...todo, able: !todo.able, text: text }
+          : todo
       );
     },
     onUndo(state, action) {
+      const { id, previous } = action.payload;
+      console.log(previous);
       return state.map((todo) =>
-        todo.id === action.payload ? { ...todo, text: todo.text } : todo
+        todo.id === id ? { ...todo, text: previous } : todo
       );
     },
     onRemove(state, action) {
